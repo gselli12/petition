@@ -1,0 +1,26 @@
+body {
+    background-color: yellow;
+}
+
+
+.input-div {
+    display: flex;
+    flex-direction: column;
+}
+
+.names {
+    display: flex;
+    flex-grow: row;
+}
+
+input {
+    width: 100px;
+}
+
+button {
+    width: 100px;
+}
+
+canvas {
+    border: 1px dashed black;
+}
