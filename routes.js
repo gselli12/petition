@@ -1,10 +1,11 @@
-//REQUIRING
+//REQUIRING STUFF
 var express = require('express');
 var exphbs = require('express-handlebars');
 var app = express();
-//const {addSignature, countRows, getNames} = require("./dbqueries.js");
+const {addSignature, countRows, getNames} = require("./dbqueries.js");
 var cookieSession = require('cookie-session');
 const secrets = require("./secrets.json");
+
 //SETUP HANDLEBARS
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
@@ -38,10 +39,8 @@ app.get("/petition", (req, res) => {
 
 app.get("/petition/signed", (req, res) => {
     let num = {};
-    //countRows(num);
-    db.query('SELECT COUNT(*) FROM signatures;')
+    countRows()
         .then((results) => {
-            //console.log(results.rows[0].count);
             num.count = results.rows[0].count;
             console.log(num);
         }).catch(function(err) {
@@ -54,7 +53,7 @@ app.get("/petition/signed", (req, res) => {
 
 app.get("/petition/signers", (req, res) => {
     let obj = [];
-    db.query('SELECT first, last FROM signatures;')
+    getNames()
         .then((results) => {
             obj = results.rows;
             res.render("signers", {
@@ -62,17 +61,12 @@ app.get("/petition/signers", (req, res) => {
             });
         });
 });
-//TEST
-const spicedPG = require("spiced-pg");
-const login = require("./secrets.json");
-
-const db = spicedPG("postgres:" + login.username + ":" + login.password + "@localhost:5432/petition");
 
 //POST REQUESTS
 app.post("/petition", (req, res) => {
     let data = [req.body.first, req.body.last, req.body.signature];
 
-    db.query('INSERT INTO signatures (first, last, signature) VALUES ($1, $2, $3) RETURNING id ', data )
+    addSignature(data)
         .then(function(results) {
             if(data[0] != "" && data[1] != "" && data[2] != "") {
                 console.log(results.rows[0].id);
