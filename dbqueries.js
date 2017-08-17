@@ -1,17 +1,19 @@
 const spicedPG = require("spiced-pg");
-const secrets = require("secrets.json");
+const login = require("./secrets.json");
 
-const db = spicedPg("postgres://${secrets.username}:${secrets.password}@localhost:5432/petition");
+const db = spicedPG("postgres:" + login.username + ":" + login.password + "@localhost:5432/petition");
 
-var insertData = () =>{
-    db.query('INSERT INTO signatures (first, last, signature) VALUES ('$("#first-name").val()', '$("#last-name").val()', '$("#hidden").val()');').then(function(results) {
-        console.log(results.rows);
+var addSignature = (data, res) => {
+    db.query('INSERT INTO signatures (first, last, signature) VALUES ($1, $2, $3)', data ).then(function(results) {
+        if(data[0] != "" && data[1] != "" && data[2] != "") {
+            console.log(results);
+            res.cookie("MyCookie", "1");
+            res.redirect("/petition/signed");
+            res.send();
+        }
     }).catch(function(err) {
         console.log(err);
     });
 };
 
-
-//create module called db queries, that makes all your db queries.
-
-modeul.exports.insertData = insertData;
+module.exports.addSignature = addSignature;
