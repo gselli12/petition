@@ -1,11 +1,11 @@
-const button = $("button");
+const button = document.querySelector("button");
 const canvas = document.querySelector("canvas");
 let context = canvas.getContext('2d');
 let x = 0;
 let y = 0;
 
 
-button.on("click", () => {
+button.addEventListener("click", () => {
     $("#hidden").val(canvas.toDataURL());
     // console.log($("#first-name").val());
     // console.log($("#last-name").val());
