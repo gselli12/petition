@@ -6,7 +6,7 @@ const secrets = require("./secrets.json");
 //MIDDLEWARE
 
 module.exports = (app) => {
-    app.use(express.static(__dirname + "/public"));
+
 
     app.use(require("cookie-parser")());
 
