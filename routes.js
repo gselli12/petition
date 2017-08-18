@@ -1,4 +1,4 @@
-const {getHash, addUser, addSignature, countRows, getNames} = require("./dbqueries.js");
+const {getSignature, getHash, addUser, addSignature, countRows, getNames} = require("./dbqueries.js");
 const {hashPassword, checkPassword} = require("./hashing.js");
 
 module.exports = (app) => {
@@ -18,16 +18,30 @@ module.exports = (app) => {
 
     app.get("/petition/signed", (req, res) => {
         let num = {};
+        let img;
+        console.log(req.session.id);
         countRows()
             .then((results) => {
                 num.count = results.rows[0].count;
-                console.log(num);
-            }).catch(function(err) {
-                console.log(err);
+                //console.log(num);
+            })
+            .then (() => {
+                getSignature(req.session.id)
+
+                    .then((results) => {
+                        //console.log(results.rows[0]);
+                        img = results.rows[0];
+                    })
+                    .then(() => {
+                        res.render("signed", {
+                            signatures : num,
+                            image : img,
+                        });
+                    })
+                    .catch(function(err) {
+                        console.log(err);
+                    });
             });
-        res.render("signed", {
-            signatures : num,
-        });
     });
 
     app.get("/petition/signers", (req, res) => {
@@ -50,7 +64,9 @@ module.exports = (app) => {
                 addUser(data)
                     .then((results) => {
                         console.log(results.rows[0].id);
-                        req.session.isLoggedin = results.rows[0].id;
+                        req.session.id = results.rows[0].id;
+                        req.session.email = results.rows[0].emailReg;
+                        console.log(req.session.email);
                         res.redirect("/petition");
                     })
                     .catch( (err) => {
@@ -75,13 +91,14 @@ module.exports = (app) => {
                             res.redirect("/login");
                         }
                     });
-                req.session.isLoggedin = hash.id;
+                //having a bug here -> need to somehow put the below line at the end of the above promise chain
+                req.session.id = hash.id;
             });
 
     });
 
     app.post("/petition", (req, res) => {
-        let data = [req.body.first, req.body.last, req.body.signature, req.session.isLoggedin];
+        let data = [req.body.first, req.body.last, req.body.signature, req.session.id];
 
         addSignature(data)
             .then(function(results) {

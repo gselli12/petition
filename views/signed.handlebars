@@ -2,4 +2,6 @@
 
 <img height = "250px" width = "300px" src = "../Thank_you.jpg">
 
-<a href="./signers">{{> signatures}}</a> 
+<img src="{{#image}}{{sig}}{{/image}}" alt="">
+
+<a href="./signers"><p>{{#signatures}}{{count}}{{/signatures}} have signed this petition</p></a>

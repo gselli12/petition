@@ -3,22 +3,9 @@ const login = require("./secrets.json");
 
 const db = spicedPG("postgres:" + login.username + ":" + login.password + "@localhost:5432/petition");
 
-
-var addSignature = (data) => {
-    return new Promise((resolve, reject) => {
-        db.query('INSERT INTO signatures (first, last, sig, user_id) VALUES ($1, $2, $3, $4) RETURNING id ', data, (err, results) => {
-            if (results) {
-                resolve(results);
-            } else {
-                reject("error");
-            }
-        } );
-    });
-};
-
 var addUser = (data) => {
     return new Promise((resolve, reject) => {
-        db.query("INSERT INTO users (first, last, email, pw) values ($1, $2, $3, $4) RETURNING id;", data, (err, results) => {
+        db.query("INSERT INTO users (first, last, email, pw) values ($1, $2, $3, $4) RETURNING id, email;", data, (err, results) => {
             if (results) {
                 resolve(results);
             } else {
@@ -41,10 +28,35 @@ var getHash = (email) => {
     });
 };
 
+var addSignature = (data) => {
+    return new Promise((resolve, reject) => {
+        db.query('INSERT INTO signatures (first, last, sig, user_id) VALUES ($1, $2, $3, $4) RETURNING id;', data, (err, results) => {
+            if (results) {
+                resolve(results);
+            } else {
+                reject("error");
+            }
+        } );
+    });
+};
+
 var countRows = () => {
     return new Promise((resolve, reject) => {
         db.query('SELECT COUNT(*) FROM signatures;', null, (err, results) => {
             if (results) {
+                resolve(results);
+            } else {
+                reject("error");
+            }
+        });
+    });
+};
+
+var getSignature = (id) => {
+    return new Promise((resolve, reject) => {
+        db.query("Select sig FROM signatures WHERE user_id = '" + id + "';", null, (err, results) => {
+            if (results) {
+                //console.log(results);
                 resolve(results);
             } else {
                 reject("error");
@@ -65,6 +77,7 @@ var getNames = () => {
     });
 };
 
+module.exports.getSignature = getSignature;
 module.exports.getHash = getHash;
 module.exports.addUser = addUser;
 module.exports.getNames = getNames;
