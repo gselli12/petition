@@ -24,3 +24,9 @@ button {
 canvas {
     border: 1px dashed black;
 }
+
+#arnold-strong {
+    margin-top: 10px; 
+    width: 300px;
+    height: 350px;
+}

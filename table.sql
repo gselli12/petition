@@ -1,10 +1,20 @@
+DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS signatures;
 
-CREATE TABLE signatures (
+CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     first VARCHAR(200) NOT NULL,
     last VARCHAR(200) NOT NULL,
-    signature TEXT NOT NULL
+    email VARCHAR(300) NOT NULL UNIQUE,
+    pw VARCHAR(400) NOT NULL,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO signatures (first, last, signature) VALUES ('Thomas', 'Gsellmann', 'ladida');
+CREATE TABLE signatures (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    first VARCHAR(200) NOT NULL,
+    last VARCHAR(200) NOT NULL,
+    sig TEXT NOT NULL,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

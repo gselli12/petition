@@ -1,5 +1,5 @@
 //REQUIRING
-var express = require('express');
+//var express = require('express');
 var cookieSession = require('cookie-session');
 const secrets = require("./secrets.json");
 
@@ -26,4 +26,15 @@ module.exports = (app) => {
             next();
         }
     });
+
+    app.use((req, res, next) => {
+        if( !req.session.isLoggedin && req.url !== "/register" && req.url !== "/login") {
+            res.redirect("/register");
+        } else if (req.session.isLoggedin && (req.url == "/register" || req.url == "/login")) {
+            res.redirect("/petition");
+        } else {
+            next();
+        }
+    });
+
 };
