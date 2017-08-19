@@ -1,9 +1,102 @@
+* {
+    font-family: Lato;
+    color: white;
+    font-weight: lighter;
+}
+
 body {
-    background-color: yellow;
+    /*background-image: url(arnoldForPresident.jpg);*/
+    background-size: cover;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+#register {
+    display: flex;
+    flex-direction: row;
+}
+
+.register {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 100px;
+}
+
+.textReg {
+    width: 50%;
+    margin-top: 5%;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.highlight {
+    margin-top: 10px;
+    font-size: 25px;
+    color: #E14646;
+    font-weight: bold;
+}
+
+#login {
+    font-size: inherit;
+    color: #6B9AFF;
+}
+
+#imgReg {
+    width: 50%;
+}
+
+h1 {
+    font-size: 25px;
+}
+
+h2 {
+    margin-top: 100px;
+}
+
+h4 {
+    position: absolute;
+    bottom: 5px;
+    right: 50%;
+}
+
+h5 {
+    margin: 1px;
+    margin-bottom: 8px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    font-size: 18px;
 }
 
 
-.input-div {
+input {
+    width: 200px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+input, select, textarea{
+    color: black;
+}
+
+button {
+    margin-top: 10px;
+    width: 100px;
+}
+
+canvas {
+    border: 2px double white;
+}
+
+.column {
     display: flex;
     flex-direction: column;
 }
@@ -13,20 +106,8 @@ body {
     flex-grow: row;
 }
 
-input {
-    width: 100px;
-}
-
-button {
-    width: 100px;
-}
-
-canvas {
-    border: 1px dashed black;
-}
-
 #arnold-strong {
-    margin-top: 10px; 
+    margin-top: 10px;
     width: 300px;
     height: 350px;
 }

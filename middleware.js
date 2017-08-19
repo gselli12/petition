@@ -19,22 +19,22 @@ module.exports = (app) => {
         maxAge: 1000 * 60 * 60 * 24 * 14
     }));
 
-    app.use((req, res, next) => {
-        if (req.session.sigId && req.url == "/petition") {
-            res.redirect("/petition/signed");
-        } else {
-            next();
-        }
-    });
-
-    app.use((req, res, next) => {
-        if( !req.session.isLoggedin && req.url !== "/register" && req.url !== "/login") {
-            res.redirect("/register");
-        } else if (req.session.isLoggedin && (req.url == "/register" || req.url == "/login")) {
-            res.redirect("/petition");
-        } else {
-            next();
-        }
-    });
+    // app.use((req, res, next) => {
+    //     if (req.session.sigId && req.url == "/petition") {
+    //         res.redirect("/petition/signed");
+    //     } else {
+    //         next();
+    //     }
+    // });
+    //
+    // app.use((req, res, next) => {
+    //     if( !req.session.id && req.url !== "/register" && req.url !== "/login") {
+    //         res.redirect("/register");
+    //     } else if (req.session.id && (req.url == "/register" || req.url == "/login")) {
+    //         res.redirect("/petition");
+    //     } else {
+    //         next();
+    //     }
+    // });
 
 };

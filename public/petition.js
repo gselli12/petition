@@ -1,6 +1,7 @@
 const button = document.querySelector("button");
 const canvas = document.querySelector("canvas");
 let context = canvas.getContext('2d');
+
 let x = 0;
 let y = 0;
 
@@ -30,6 +31,10 @@ canvas.addEventListener("mousemove", (e) => {
     if(e.buttons != 1) return;
 
     context.beginPath();
+    context.strokeStyle = '#E14646';
+    context.lineWidth = 2;
+    context.lineCap = 'round';
+
     context.moveTo(x ,y);
     position(e);
     context.lineTo(x , y);
