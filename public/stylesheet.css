@@ -1,5 +1,13 @@
+@font-face {
+    font-family: 'terminator_real_nfiregular';
+    src: url('terminator-webfont.woff2') format('woff2'),
+         url('terminator-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 * {
-    font-family: Lato;
+    font-family: 'terminator_real_nfiregular';
     color: white;
     font-weight: lighter;
 }
