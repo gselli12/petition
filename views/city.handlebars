@@ -2,6 +2,6 @@
 
 <ul>
     {{#each info}}
-        <li>{{this.first}} {{this.last}} ({{this.age}})</li>
+        <li>{{this.first}} {{this.last}} {{#if this.age}}({{this.age}}){{/if}}</li>
     {{/each}}
 </ul>

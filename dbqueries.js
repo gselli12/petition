@@ -18,9 +18,8 @@ var addUser = (data) => {
 
 var getHash = (email) => {
     return new Promise((resolve, reject) => {
-        db.query("SELECT pw, id FROM uers WHERE email = '" + email +"';", null, (err, results) => {
+        db.query("SELECT pw, id FROM users WHERE email = '" + email +"';", null, (err, results) => {
             if (results) {
-                console.log(results.rows[0].id);
                 resolve(results.rows[0]);
             } else {
                 reject("error at getting hash");
@@ -73,7 +72,6 @@ var getSignature = (id) => {
     return new Promise((resolve, reject) => {
         db.query("SELECT sig FROM signatures WHERE user_id = '" + id + "';", null, (err, results) => {
             if (results) {
-                //console.log(results);
                 resolve(results);
             } else {
                 reject("error");
@@ -85,7 +83,7 @@ var getSignature = (id) => {
 
 var getNames = () => {
     return new Promise((resolve, reject) => {
-        db.query('SELECT users.first, users.last, profile.age, profile.city, profile.url FROM signatures INNER JOIN users ON users.id = signatures.user_id JOIN profile ON users.id = profile.user_id;', null, (err, results) => {
+        db.query('SELECT users.first, users.last, profile.age, profile.city, profile.url FROM signatures JOIN users ON users.id = signatures.user_id JOIN profile ON users.id = profile.user_id;', null, (err, results) => {
             if(results) {
                 resolve(results);
             } else {
