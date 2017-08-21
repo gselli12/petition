@@ -78,9 +78,13 @@ module.exports = (app) => {
                         req.session.id = results.rows[0].id;
                         req.session.email = results.rows[0].emailReg;
                         res.redirect("/profile");
+
                     })
                     .catch( (err) => {
                         console.log(err);
+                        res.render("register", {
+                            error: "Something went wrong, try again"
+                        });
                     });
             });
     });
@@ -116,8 +120,13 @@ module.exports = (app) => {
                     });
                 //having a bug here -> need to somehow put the below line at the end of the above promise chain
                 req.session.id = hash.id;
+            })
+            .catch((err) => {
+                console.log(err);
+                res.render("login", {
+                    error: "Something went wrong, try again",
+                });
             });
-
     });
 
     app.post("/petition", (req, res) => {
