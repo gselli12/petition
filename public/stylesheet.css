@@ -23,7 +23,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 100px;
+    margin-top: 50px;
 }
 
 .textReg {
@@ -45,6 +45,12 @@ body {
     color: #6B9AFF;
 }
 
+.imgLogin {
+    position: absolute;
+    bottom: 270px;
+    height: 30%;
+}
+
 #imgReg {
     width: 50%;
 }
@@ -54,7 +60,7 @@ h1 {
 }
 
 h2 {
-    margin-top: 100px;
+    margin-top: 50px;
 }
 
 h4 {

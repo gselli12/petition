@@ -1,4 +1,4 @@
-const {getSignature, getHash, addUser, addSignature, countRows, getNames} = require("./dbqueries.js");
+const {getNamesByCity, addInfo, getSignature, getHash, addUser, addSignature, countRows, getNames} = require("./dbqueries.js");
 const {hashPassword, checkPassword} = require("./hashing.js");
 
 module.exports = (app) => {
@@ -10,6 +10,10 @@ module.exports = (app) => {
 
     app.get("/login", (req, res) => {
         res.render("login", {});
+    });
+
+    app.get("/profile", (req, res) => {
+        res.render("profile", {});
     });
 
     app.get("/petition", (req, res) => {
@@ -55,6 +59,18 @@ module.exports = (app) => {
             });
     });
 
+    app.get("/petition/:city", (req, res) => {
+        let city = req.params.city;
+        console.log(city);
+        getNamesByCity(city)
+            .then((results) => {
+                res.render("city", {
+                    city: req.params.city,
+                    info: results.rows,
+                });
+            });
+    });
+
     //POST REQUESTS
     app.post("/register", (req, res) => {
 
@@ -67,12 +83,27 @@ module.exports = (app) => {
                         req.session.id = results.rows[0].id;
                         req.session.email = results.rows[0].emailReg;
                         console.log(req.session.email);
-                        res.redirect("/petition");
+                        res.redirect("/profile");
                     })
                     .catch( (err) => {
                         console.log(err);
                     });
             });
+    });
+
+    app.post("/profile", (req, res) => {
+        let data = [req.body.ageProfile, req.body.cityProfile, req.body.urlProfile, req.session.id];
+        if (data[0] == "" && data[1] == "" && data[2] == "") {
+            res.redirect("/petition");
+        } else {
+            addInfo(data)
+                .then((result) => {
+                    res.redirect("/petition");
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
     });
 
     app.post("/login", (req, res) => {
@@ -98,16 +129,15 @@ module.exports = (app) => {
     });
 
     app.post("/petition", (req, res) => {
-        let data = [req.body.first, req.body.last, req.body.signature, req.session.id];
+        let data = [req.body.signature, req.session.id];
 
         addSignature(data)
             .then(function(results) {
                 if(data[0] != "" && data[1] != "" && data[2] != "") {
                     req.session.sigId = results.rows[0].id;
                     res.redirect("/petition/signed");
-                    res.send();
                 }
-            }).catch(function(err) {
+            }).catch((err) =>  {
                 console.log(err);
             });
     });

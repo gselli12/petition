@@ -2,7 +2,7 @@
 
 <ul>
     {{#each names}}
-        <li>{{this.first}} {{this.last}}</li>
+        <li> {{#if this.url}}<a target = "_blank" href="~/petition/{{this.url}}">{{/if}}{{this.first}} {{this.last}}</a> ({{#if this.age}}{{this.age}}{{/if}}{{#if this.city}} ,<a href="{{this.city}}"> {{this.city}}{{/if}})</a></li>
     {{/each}}
 
 </ul>

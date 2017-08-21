@@ -15,9 +15,10 @@ var addUser = (data) => {
     });
 };
 
+
 var getHash = (email) => {
     return new Promise((resolve, reject) => {
-        db.query("SELECT pw, id FROM users WHERE email = '" + email +"';", null, (err, results) => {
+        db.query("SELECT pw, id FROM uers WHERE email = '" + email +"';", null, (err, results) => {
             if (results) {
                 console.log(results.rows[0].id);
                 resolve(results.rows[0]);
@@ -28,9 +29,23 @@ var getHash = (email) => {
     });
 };
 
+
+var addInfo = (data) => {
+    return new Promise((resolve, reject) => {
+        db.query("INSERT INTO profile (age, city, url, user_id) values ($1, $2, $3, $4)", data, (err, results) => {
+            if (results) {
+                resolve(results);
+            } else {
+                reject(err, "error at addInfo");
+            }
+        });
+    });
+};
+
+
 var addSignature = (data) => {
     return new Promise((resolve, reject) => {
-        db.query('INSERT INTO signatures (first, last, sig, user_id) VALUES ($1, $2, $3, $4) RETURNING id;', data, (err, results) => {
+        db.query('INSERT INTO signatures (sig, user_id) VALUES ($1, $2) RETURNING id;', data, (err, results) => {
             if (results) {
                 resolve(results);
             } else {
@@ -39,6 +54,7 @@ var addSignature = (data) => {
         } );
     });
 };
+
 
 var countRows = () => {
     return new Promise((resolve, reject) => {
@@ -52,9 +68,10 @@ var countRows = () => {
     });
 };
 
+
 var getSignature = (id) => {
     return new Promise((resolve, reject) => {
-        db.query("Select sig FROM signatures WHERE user_id = '" + id + "';", null, (err, results) => {
+        db.query("SELECT sig FROM signatures WHERE user_id = '" + id + "';", null, (err, results) => {
             if (results) {
                 //console.log(results);
                 resolve(results);
@@ -65,9 +82,10 @@ var getSignature = (id) => {
     });
 };
 
+
 var getNames = () => {
     return new Promise((resolve, reject) => {
-        db.query('SELECT first, last FROM signatures;', null, (err, results) => {
+        db.query('SELECT users.first, users.last, profile.age, profile.city, profile.url FROM signatures INNER JOIN users ON users.id = signatures.user_id JOIN profile ON users.id = profile.user_id;', null, (err, results) => {
             if(results) {
                 resolve(results);
             } else {
@@ -77,6 +95,22 @@ var getNames = () => {
     });
 };
 
+
+var getNamesByCity = (input) => {
+    return new Promise((resolve, reject) => {
+        db.query("SELECT users.first, users.last, profile.age FROM signatures JOIN users ON users.id = signatures.user_id JOIN profile ON users.id = profile.user_id WHERE profile.city = '" + input + "';", null, (err, results) => {
+            if (results) {
+                resolve(results);
+            } else {
+                reject("error at getNamesByCity");
+            }
+        });
+    });
+};
+
+
+module.exports.getNamesByCity = getNamesByCity;
+module.exports.addInfo = addInfo;
 module.exports.getSignature = getSignature;
 module.exports.getHash = getHash;
 module.exports.addUser = addUser;
