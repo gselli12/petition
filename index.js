@@ -11,13 +11,10 @@ app.set('view engine', 'handlebars');
 
 app.use(express.static(__dirname + "/public"));
 
-
-
 //MIDDLEWARE
 middleware(app);
 
 //ROUTES
-// routes(app);
 app.use(routes);
 
 const port = 8080;

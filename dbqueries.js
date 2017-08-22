@@ -38,7 +38,7 @@ var updateUser = (data, id) => {
                 console.log("error at first query");
             }
         });
-        db.query("UPDATE profile SET age = ($1), city = ($2), url = ($3) FROM users WHERE users.id = '" + id + "';", data.slice(4, 8), (err, results) => {
+        db.query("UPDATE profile SET age = ($1), city = ($2), url = ($3) WHERE profile.user_id = '" + id + "';", data.slice(4, 8), (err, results) => {
             if (results) {
                 resolve(results);
             } else {

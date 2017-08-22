@@ -36,6 +36,7 @@ router.route("/register")
     })
 ;
 
+
 router.route("/login")
 
     .get((req, res) => {
@@ -69,6 +70,7 @@ router.route("/login")
     })
 ;
 
+
 router.route("/profile")
 
     .get((req, res) => {
@@ -95,6 +97,7 @@ router.route("/profile")
 
     })
 ;
+
 
 router.route("/profile/edit")
 
@@ -125,6 +128,7 @@ router.route("/profile/edit")
     })
 ;
 
+
 router.route("/petition")
 
     .get((req, res) => {
@@ -145,6 +149,7 @@ router.route("/petition")
     })
 ;
 
+
 router.route("/delete")
 
     .get((req, res) => {
@@ -159,6 +164,7 @@ router.route("/delete")
             });
     })
 ;
+
 
 router.route("/petition/signed")
 
@@ -188,6 +194,7 @@ router.route("/petition/signed")
     })
 ;
 
+
 router.route("/petition/signers")
 
     .get((req, res) => {
@@ -200,6 +207,7 @@ router.route("/petition/signers")
                 });
             });
     });
+
 
 router.route("/petition/:city")
 

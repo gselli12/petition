@@ -20,51 +20,8 @@ body {
     flex-direction: column;
     align-items: center;
     text-align: center;
-}
-
-#register {
-    display: flex;
-    flex-direction: row;
-}
-
-.register {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 50px;
-}
-
-.textReg {
-    width: 50%;
-    margin-top: 5%;
-    margin-left: 5px;
-    margin-right: 5px;
-}
-
-.highlight {
-    font-family: 'terminator_real_nfiregular';
-    margin-top: 10px;
-    font-size: 25px;
-    color: #E14646;
-    font-weight: bold;
-}
-
-#login {
-    font-size: inherit;
-    color: #6B9AFF;
-}
-
-.imgLogin {
-    background-image: url(arnold-login.jpg);
-    background-size: cover;
-    position: absolute;
-    bottom: 0;
-    height: 50%;
-    width: 100%;
-}
-
-#imgReg {
-    width: 50%;
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 h1 {
@@ -92,6 +49,7 @@ a {
 
 a:hover {
     font-size: 18px;
+    cursor: pointer;
 }
 
 
@@ -110,13 +68,107 @@ button {
     width: 100px;
 }
 
+button:hover {
+    cursor: pointer;
+}
+
 canvas {
     border: 2px double white;
 }
 
+#register {
+    display: flex;
+    flex-direction: row;
+}
+
+.register {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.textReg {
+    width: 50%;
+    margin-top: 5%;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.overlay {
+    background-color: black;
+    opacity: 0.4;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 10;
+}
+
+
+#backgroundPetition {
+    height: 100%;
+    width: 130%;
+}
+
+.registerMain {
+    top: 15%;
+    left: 15%;
+    position: absolute;
+    z-index: 100;
+}
+
+.highlight {
+    font-family: 'terminator_real_nfiregular';
+    margin-top: 10px;
+    font-size: 25px;
+    color: #E14646;
+    font-weight: bold;
+}
+
+#login {
+    font-size: inherit;
+    color: #6B9AFF;
+}
+
+.textLogin {
+    height: 50%;
+    position: absolute;
+    bottom: 0;
+    height: 50%;
+    width: 100%;
+}
+
+.imgLogin {
+    background-image: url(arnold-login.jpg);
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    height: 50%;
+    width: 100%;
+}
+
+.button {
+    background-color: white;
+    font-family: 'terminator_real_nfiregular';
+    color: #E14646;
+    font-weight: normal;
+    border-radius: 30px;
+    width: 150px;
+    height: 40px;;
+}
+
+
+
+#imgReg {
+    width: 50%;
+}
+
+
+
 .column {
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 .names {
