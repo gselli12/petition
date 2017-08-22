@@ -104,17 +104,35 @@ canvas {
     z-index: 10;
 }
 
+#overlaySigned{
+    opacity: 0.7;
+}
 
-#backgroundPetition {
+.backgroundImg {
     height: 100%;
     width: 130%;
 }
 
-.registerMain {
+#backgroundSigned {
+    width: 110%;
+}
+
+.main {
+    font-weight: bold;
     top: 15%;
     left: 15%;
     position: absolute;
     z-index: 100;
+}
+
+#mainSigned {
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 50px;
+}
+
+#sig {
+    border-style: double;
+    background-color: black;
 }
 
 .highlight {

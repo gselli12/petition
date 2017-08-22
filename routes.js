@@ -186,10 +186,10 @@ router.route("/petition/signed")
                             signatures : num,
                             image : img,
                         });
-                    })
-                    .catch(function(err) {
-                        console.log(err);
                     });
+            })
+            .catch(function(err) {
+                console.log(err);
             });
     })
 ;

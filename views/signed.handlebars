@@ -1,11 +1,21 @@
-<h3>Thank you for signing this petition. As a reward you get to play this amazing connect four game.</h3>
+<div class="overlay" id = "overlaySigned">
+    <img src="../Thank_you.jpg" id = "backgroundSigned" alt="" class="backgroundImg">
+</div>
 
-<img height = "250px" width = "300px" src = "../Thank_you.jpg">
+<div id="mainSigned" class="main">
 
-<img src="{{#image}}{{sig}}{{/image}}" alt="">
+    <h3>Thank you for signing this petition.</h3>
 
-<a href="./signers"><p>{{#signatures}}{{count}}{{/signatures}} have signed this petition</p></a>
+    <h5>See your signature below:</h5>
 
-<a href="/profile/edit"><p>Edit your profile</p></a>
+    <img src="{{#image}}{{sig}}{{/image}}" alt="" id="sig">
 
-<a href="/delete"><p>Delete your signature</p></a>
+
+        <a href="./signers"><p>💪{{#signatures}}{{count}}{{/signatures}} have signed this petition</p></a>
+
+        <a href="/profile/edit"><p>💪Edit your profile</p></a>
+
+        <a href="/delete"><p>💪 Delete your signature</p></a>
+
+
+</div>

@@ -1,8 +1,7 @@
 <h2>Here you find a list of people who already support our cause: </h2>
 
-<ul>
     {{#each names}}
-        <li> {{#if this.url}}
+        <p>💪 {{#if this.url}}
                 <a target = "_blank" href="{{this.url}}">{{this.first}} {{this.last}} </a>
             {{else}}
                 {{this.first}} {{this.last}}
@@ -14,7 +13,5 @@
                 {{#if this.city}} (<a href="{{this.city}}">{{this.city}}</a>) {{/if}}
             {{/if}}
 
-        </li>
+        </p>
     {{/each}}
-
-</ul>
