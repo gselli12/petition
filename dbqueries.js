@@ -19,7 +19,6 @@ var getUserData = (id) => {
     return new Promise((resolve, reject) => {
         db.query("SELECT users.first, users.last, users.email, users.pw, profile.age, profile.city, profile.url FROM users JOIN profile ON users.id = profile.user_id WHERE users.id = '" + id + "';", null, (err, results) => {
             if(results) {
-                console.log(results); 
                 resolve(results);
             } else {
                 reject("error getting user data");
@@ -28,11 +27,24 @@ var getUserData = (id) => {
     });
 };
 
-// var updateUser = (data) => {
-//     return new Promise((resolve, reject) => {
-//         db.query("")
-//     })
-// }
+var updateUser = (data, id) => {
+    return new Promise((resolve, reject) => {
+        db.query("UPDATE users SET first = ($1), last = ($2), email = ($3), pw = ($4) WHERE users.id = '" + id + "';", data.slice(0, 4) , (err, results) => {
+            if (results) {
+                return(data);
+            } else {
+                console.log("error at first query");
+            }
+        });
+        db.query("UPDATE profile SET age = ($1), city = ($2), url = ($3) FROM users WHERE users.id = '" + id + "';", data.slice(4, 8), (err, results) => {
+            if (results) {
+                resolve(results);
+            } else {
+                reject("error at second query");
+            }
+        });
+    });
+};
 
 
 var getHash = (email) => {
@@ -73,6 +85,17 @@ var addSignature = (data) => {
     });
 };
 
+var deleteSignature = (id) => {
+    return new Promise((resolve, reject) => {
+        db.query("DELETE FROM signatures WHERE signatures.user_id = '" + id + "';", null, (err, results) => {
+            if(results) {
+                resolve(results);
+            } else {
+                reject("error deleting signature");
+            }
+        });
+    });
+};
 
 var countRows = () => {
     return new Promise((resolve, reject) => {
@@ -125,6 +148,9 @@ var getNamesByCity = (input) => {
     });
 };
 
+
+module.exports.deleteSignature = deleteSignature;
+module.exports.updateUser = updateUser;
 module.exports.getUserData = getUserData;
 module.exports.getNamesByCity = getNamesByCity;
 module.exports.addInfo = addInfo;

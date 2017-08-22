@@ -1,4 +1,4 @@
-const {getUserData, getNamesByCity, addInfo, getSignature, getHash, addUser, addSignature, countRows, getNames} = require("./dbqueries.js");
+const {deleteSignature, updateUser, getUserData, getNamesByCity, addInfo, getSignature, getHash, addUser, addSignature, countRows, getNames} = require("./dbqueries.js");
 const {hashPassword, checkPassword} = require("./hashing.js");
 
 module.exports = (app) => {
@@ -29,6 +29,17 @@ module.exports = (app) => {
 
     app.get("/petition", (req, res) => {
         res.render("petition", {});
+    });
+
+    app.get("/delete", (req, res) => {
+        let id = req.session.id;
+        deleteSignature(id)
+            .then(() => {
+                res.redirect("/petition");
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     });
 
     app.get("/petition/signed", (req, res) => {
@@ -100,10 +111,6 @@ module.exports = (app) => {
             });
     });
 
-    app.post("/register/edit", (req,res) => {
-        let data = [req.body.firstEdit, req.body.lastEdit, req.body.mailEdit, req.body.pwEdit, req.body.ageEdit, req.body.cityEdit, req.body.urlEdit, req.session.id];
-
-    })
 
     app.post("/profile", (req, res) => {
         let data = [req.body.ageProfile, req.body.cityProfile, req.body.urlProfile, req.session.id];
@@ -111,7 +118,22 @@ module.exports = (app) => {
             data[0] = null;
         }
         addInfo(data)
-            .then((result) => {
+            .then(() => {
+                res.redirect("/petition");
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+
+    });
+
+    app.post("/profile/edit", (req,res) => {
+        let data = [req.body.firstEdit, req.body.lastEdit, req.body.mailEdit, req.body.pwEdit, req.body.ageEdit, req.body.cityEdit, req.body.urlEdit];
+        let id = req.session.id;
+
+        updateUser(data, id)
+
+            .then(() => {
                 res.redirect("/petition");
             })
             .catch((err) => {
@@ -152,7 +174,8 @@ module.exports = (app) => {
             .then(function(results) {
                 req.session.sigId = results.rows[0].id;
                 res.redirect("/petition/signed");
-            }).catch((err) =>  {
+            })
+            .catch((err) =>  {
                 console.log(err);
             });
     });
