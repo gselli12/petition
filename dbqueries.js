@@ -15,6 +15,25 @@ var addUser = (data) => {
     });
 };
 
+var getUserData = (id) => {
+    return new Promise((resolve, reject) => {
+        db.query("SELECT users.first, users.last, users.email, users.pw, profile.age, profile.city, profile.url FROM users JOIN profile ON users.id = profile.user_id WHERE users.id = '" + id + "';", null, (err, results) => {
+            if(results) {
+                console.log(results); 
+                resolve(results);
+            } else {
+                reject("error getting user data");
+            }
+        });
+    });
+};
+
+// var updateUser = (data) => {
+//     return new Promise((resolve, reject) => {
+//         db.query("")
+//     })
+// }
+
 
 var getHash = (email) => {
     return new Promise((resolve, reject) => {
@@ -106,7 +125,7 @@ var getNamesByCity = (input) => {
     });
 };
 
-
+module.exports.getUserData = getUserData;
 module.exports.getNamesByCity = getNamesByCity;
 module.exports.addInfo = addInfo;
 module.exports.getSignature = getSignature;

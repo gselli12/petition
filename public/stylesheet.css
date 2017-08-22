@@ -7,7 +7,7 @@
 }
 
 * {
-    font-family: 'terminator_real_nfiregular';
+    font-family: Lato;
     color: white;
     font-weight: lighter;
 }
@@ -42,6 +42,7 @@ body {
 }
 
 .highlight {
+    font-family: 'terminator_real_nfiregular';
     margin-top: 10px;
     font-size: 25px;
     color: #E14646;
@@ -54,9 +55,12 @@ body {
 }
 
 .imgLogin {
+    background-image: url(arnold-login.jpg);
+    background-size: cover;
     position: absolute;
-    bottom: 270px;
-    height: 30%;
+    bottom: 0;
+    height: 50%;
+    width: 100%;
 }
 
 #imgReg {

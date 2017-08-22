@@ -1,4 +1,4 @@
-const {getNamesByCity, addInfo, getSignature, getHash, addUser, addSignature, countRows, getNames} = require("./dbqueries.js");
+const {getUserData, getNamesByCity, addInfo, getSignature, getHash, addUser, addSignature, countRows, getNames} = require("./dbqueries.js");
 const {hashPassword, checkPassword} = require("./hashing.js");
 
 module.exports = (app) => {
@@ -14,6 +14,17 @@ module.exports = (app) => {
 
     app.get("/profile", (req, res) => {
         res.render("profile", {});
+    });
+
+    app.get("/profile/edit", (req,res) => {
+        let id = req.session.id;
+        getUserData(id)
+            .then((results) => {
+                res.render("edit", {
+                    info: results.rows[0]
+                });
+            });
+
     });
 
     app.get("/petition", (req, res) => {
@@ -89,6 +100,11 @@ module.exports = (app) => {
             });
     });
 
+    app.post("/register/edit", (req,res) => {
+        let data = [req.body.firstEdit, req.body.lastEdit, req.body.mailEdit, req.body.pwEdit, req.body.ageEdit, req.body.cityEdit, req.body.urlEdit, req.session.id];
+
+    })
+
     app.post("/profile", (req, res) => {
         let data = [req.body.ageProfile, req.body.cityProfile, req.body.urlProfile, req.session.id];
         if (data[0] == "") {
@@ -116,7 +132,7 @@ module.exports = (app) => {
                         } else {
                             console.log("wrong password");
                             res.redirect("/login");
-                        }
+                        }cd
                     });
                 //having a bug here -> need to somehow put the below line at the end of the above promise chain
                 req.session.id = hash.id;
