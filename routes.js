@@ -1,22 +1,104 @@
 const {deleteSignature, updateUser, getUserData, getNamesByCity, addInfo, getSignature, getHash, addUser, addSignature, countRows, getNames} = require("./dbqueries.js");
+
 const {hashPassword, checkPassword} = require("./hashing.js");
 
-module.exports = (app) => {
+var express = require("express");
+var router = express.Router();
 
-    //GET REQUESTS
-    app.get("/register", (req, res) => {
+router.route("/register")
+
+    .get((req, res) => {
         res.render("register", {});
-    });
+    })
 
-    app.get("/login", (req, res) => {
+    .post((req, res) => {
+        let pw = req.body.pwReg;
+        let first = req.body.firstReg;
+        let last = req.body.lastReg;
+        let email = req.body.emailReg;
+
+        hashPassword(pw)
+            .then((hash) => {
+                let data = [first, last, email, hash];
+                addUser(data)
+                    .then((results) => {
+                        req.session.id = results.rows[0].id;
+                        req.session.email = results.rows[0].emailReg;
+                        res.redirect("/profile");
+                    })
+                    .catch( (err) => {
+                        console.log(err);
+                        res.render("register", {
+                            error: "Something went wrong, try again"
+                        });
+                    });
+            });
+    })
+;
+
+router.route("/login")
+
+    .get((req, res) => {
         res.render("login", {});
-    });
+    })
 
-    app.get("/profile", (req, res) => {
+    .post((req, res) => {
+        let email = req.body.emailLog;
+        let pw = req.body.pwLog;
+
+        getHash(email)
+            .then((hash) => {
+                checkPassword(pw, hash.pw)
+                    .then((result) => {
+                        if(result) {
+                            res.redirect("/petition");
+                        } else {
+                            console.log("wrong password");
+                            res.redirect("/login");
+                        }
+                    });
+                //having a bug here -> need to somehow put the below line at the end of the above promise chain
+                req.session.id = hash.id;
+            })
+            .catch((err) => {
+                console.log(err);
+                res.render("login", {
+                    error: "Something went wrong, try again",
+                });
+            });
+    })
+;
+
+router.route("/profile")
+
+    .get((req, res) => {
         res.render("profile", {});
-    });
+    })
 
-    app.get("/profile/edit", (req,res) => {
+    .post((req, res) => {
+        let age = req.body.ageProfile;
+        let city = req.body.cityProfile;
+        let url = req.body.urlProfile;
+        let id = req.session.id;
+
+        let data = [age, city, url, id];
+        if (data[0] == "") {
+            data[0] = null;
+        }
+        addInfo(data)
+            .then(() => {
+                res.redirect("/petition");
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+
+    })
+;
+
+router.route("/profile/edit")
+
+    .get((req,res) => {
         let id = req.session.id;
         getUserData(id)
             .then((results) => {
@@ -24,15 +106,50 @@ module.exports = (app) => {
                     info: results.rows[0]
                 });
             });
+    })
 
-    });
+    .post((req,res) => {
+        let data = [req.body.firstEdit, req.body.lastEdit, req.body.mailEdit, req.body.pwEdit, req.body.ageEdit, req.body.cityEdit, req.body.urlEdit];
 
-    app.get("/petition", (req, res) => {
-        res.render("petition", {});
-    });
-
-    app.get("/delete", (req, res) => {
         let id = req.session.id;
+
+        updateUser(data, id)
+
+            .then(() => {
+                res.redirect("/petition");
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+
+    })
+;
+
+router.route("/petition")
+
+    .get((req, res) => {
+        res.render("petition", {});
+    })
+
+    .post((req, res) => {
+        let data = [req.body.signature, req.session.id];
+
+        addSignature(data)
+            .then(function(results) {
+                req.session.sigId = results.rows[0].id;
+                res.redirect("/petition/signed");
+            })
+            .catch((err) =>  {
+                console.log(err);
+            });
+    })
+;
+
+router.route("/delete")
+
+    .get((req, res) => {
+        let id = req.session.id;
+
         deleteSignature(id)
             .then(() => {
                 res.redirect("/petition");
@@ -40,9 +157,12 @@ module.exports = (app) => {
             .catch((err) => {
                 console.log(err);
             });
-    });
+    })
+;
 
-    app.get("/petition/signed", (req, res) => {
+router.route("/petition/signed")
+
+    .get((req, res) => {
         let num = {};
         let img;
         countRows()
@@ -65,9 +185,12 @@ module.exports = (app) => {
                         console.log(err);
                     });
             });
-    });
+    })
+;
 
-    app.get("/petition/signers", (req, res) => {
+router.route("/petition/signers")
+
+    .get((req, res) => {
         let obj = [];
         getNames()
             .then((results) => {
@@ -78,7 +201,9 @@ module.exports = (app) => {
             });
     });
 
-    app.get("/petition/:city", (req, res) => {
+router.route("/petition/:city")
+
+    .get((req, res) => {
         let city = req.params.city;
         getNamesByCity(city)
             .then((results) => {
@@ -89,96 +214,6 @@ module.exports = (app) => {
             });
     });
 
-    //POST REQUESTS
-    app.post("/register", (req, res) => {
-
-        hashPassword(req.body.pwReg)
-            .then((hash) => {
-                let data = [req.body.firstReg, req.body.lastReg, req.body.emailReg, hash];
-                addUser(data)
-                    .then((results) => {
-                        req.session.id = results.rows[0].id;
-                        req.session.email = results.rows[0].emailReg;
-                        res.redirect("/profile");
-
-                    })
-                    .catch( (err) => {
-                        console.log(err);
-                        res.render("register", {
-                            error: "Something went wrong, try again"
-                        });
-                    });
-            });
-    });
 
 
-    app.post("/profile", (req, res) => {
-        let data = [req.body.ageProfile, req.body.cityProfile, req.body.urlProfile, req.session.id];
-        if (data[0] == "") {
-            data[0] = null;
-        }
-        addInfo(data)
-            .then(() => {
-                res.redirect("/petition");
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-
-    });
-
-    app.post("/profile/edit", (req,res) => {
-        let data = [req.body.firstEdit, req.body.lastEdit, req.body.mailEdit, req.body.pwEdit, req.body.ageEdit, req.body.cityEdit, req.body.urlEdit];
-        let id = req.session.id;
-
-        updateUser(data, id)
-
-            .then(() => {
-                res.redirect("/petition");
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-
-    });
-
-    app.post("/login", (req, res) => {
-
-        getHash(req.body.emailLog)
-            .then((hash) => {
-                checkPassword(req.body.pwLog, hash.pw)
-                    .then((result) => {
-                        if(result) {
-                            res.redirect("/petition");
-
-                        } else {
-                            console.log("wrong password");
-                            res.redirect("/login");
-                        }cd
-                    });
-                //having a bug here -> need to somehow put the below line at the end of the above promise chain
-                req.session.id = hash.id;
-            })
-            .catch((err) => {
-                console.log(err);
-                res.render("login", {
-                    error: "Something went wrong, try again",
-                });
-            });
-    });
-
-    app.post("/petition", (req, res) => {
-        let data = [req.body.signature, req.session.id];
-
-        addSignature(data)
-            .then(function(results) {
-                req.session.sigId = results.rows[0].id;
-                res.redirect("/petition/signed");
-            })
-            .catch((err) =>  {
-                console.log(err);
-            });
-    });
-
-
-};
+module.exports = router;

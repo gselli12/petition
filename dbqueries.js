@@ -15,6 +15,7 @@ var addUser = (data) => {
     });
 };
 
+
 var getUserData = (id) => {
     return new Promise((resolve, reject) => {
         db.query("SELECT users.first, users.last, users.email, users.pw, profile.age, profile.city, profile.url FROM users JOIN profile ON users.id = profile.user_id WHERE users.id = '" + id + "';", null, (err, results) => {
@@ -26,6 +27,7 @@ var getUserData = (id) => {
         });
     });
 };
+
 
 var updateUser = (data, id) => {
     return new Promise((resolve, reject) => {
@@ -85,6 +87,7 @@ var addSignature = (data) => {
     });
 };
 
+
 var deleteSignature = (id) => {
     return new Promise((resolve, reject) => {
         db.query("DELETE FROM signatures WHERE signatures.user_id = '" + id + "';", null, (err, results) => {
@@ -96,6 +99,7 @@ var deleteSignature = (id) => {
         });
     });
 };
+
 
 var countRows = () => {
     return new Promise((resolve, reject) => {
