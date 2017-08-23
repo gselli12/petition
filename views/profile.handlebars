@@ -1,11 +1,23 @@
-<h3>Please tell us a little bit more about yourself.</h3>
+<div class="imgProfile">
+    <img src="arnold-profile.jpg" class="pic" alt="">
+</div>
 
-<form class="profile" action="/profile" method="post">
-    <div class="column">
-        <input type="input" name="ageProfile" value="" placeholder ="Age (optional)">
-        <input type="input" name="cityProfile" value="" placeholder ="City (optional)">
-        <input type="input" name="urlProfile" value="" placeholder ="Webiste/Social Media (optional)">
-        <input type="hidden" name="_csrf" value="{{csrfToken}}">
-        <button type="submit" formmethod="POST">Continue</button>
-    </div>
-</form>
+
+<div class="mainProfile">
+
+    <h1>Please tell us a little bit more about yourself.</h1>
+
+    <form class="profile" action="/profile" method="post">
+        <div class="column">
+            <input type="input" name="ageProfile" value="" placeholder ="">
+            <h5>Age (optional)</h5>
+            <input type="input" name="cityProfile" value="" placeholder ="">
+            <h5>City (optional)</h5>
+            <input type="input" name="urlProfile" value="" placeholder ="">
+            <h5>Website/Social Media (optional)</h5>
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">
+            <button type="submit" class="button" formmethod="POST">Continue</button>
+        </div>
+    </form>
+
+</div>

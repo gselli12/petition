@@ -31,7 +31,7 @@ canvas.addEventListener("mousemove", (e) => {
     if(e.buttons != 1) return;
 
     context.beginPath();
-    context.strokeStyle = '#E14646';
+    context.strokeStyle = '#000000';
     context.lineWidth = 2;
     context.lineCap = 'round';
 

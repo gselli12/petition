@@ -1,24 +1,35 @@
-<h3>Edit your profile</h3>
+<div class="imgEdit">
+    <img src="/arnold-edit.jpg" class= "pic" alt="">
 
-<form class="edit" action="/profile/edit" method="post">
+</div>
 
-    <div class="column">
-        <input type="input" name="firstEdit" value="{{info.first}}" placeholder ="First Name" ">
-        <h5>First Name (required)</h5>
-        <input type="input" name="lastEdit" value="{{info.last}}" placeholder ="Last Name" >
-        <h5>Last Name (required)</h5>
-        <input type="input" name="mailEdit" value="{{info.email}}" placeholder ="Email" >
-        <h5>Email (required)</h5>
-        <input type="password" name="pwEdit" value="" placeholder ="Password">
-        <h5>Password (if you want to change it)</h5>
-        <input type="input" name="ageEdit" value="{{info.age}}" placeholder ="Age" >
-        <h5>Age (optional)</h5>
-        <input type="input" name="cityEdit" value="{{info.city}}" placeholder ="City" >
-        <h5>City (optional)</h5>
-        <input type="input" name="urlEdit" value="{{info.url}}" placeholder ="URL" >
-        <h5>URL (optional)</h5>
-        <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
-        <button type="submit" formmethod="POST">Update</button>
-    </div>
-</form>
+
+<div class="mainEdit">
+
+    <h3>Edit your profile</h3>
+
+    <form class="edit" action="/profile/edit" method="post">
+
+        <div class="column">
+            <input type="input" name="firstEdit" value="{{info.first}}" placeholder ="First Name" ">
+            <h5>First Name (required)</h5>
+            <input type="input" name="lastEdit" value="{{info.last}}" placeholder ="Last Name" >
+            <h5>Last Name (required)</h5>
+            <input type="input" name="mailEdit" value="{{info.email}}" placeholder ="Email" >
+            <h5>Email (required)</h5>
+            <input type="password" name="pwEdit" value="" placeholder ="Password">
+            <h5>Password (if you want to change it)</h5>
+            <input type="input" name="ageEdit" value="{{info.age}}" placeholder ="Age" >
+            <h5>Age (optional)</h5>
+            <input type="input" name="cityEdit" value="{{info.city}}" placeholder ="City" >
+            <h5>City (optional)</h5>
+            <input type="input" name="urlEdit" value="{{info.url}}" placeholder ="URL" >
+            <h5>URL (optional)</h5>
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">
+
+            <button type="submit" class = "button" formmethod="POST">Update</button>
+        </div>
+    </form>
+
+</div>

@@ -1,17 +1,25 @@
-<h2>Here you find a list of people who already support our cause: </h2>
+<div id="imgSigners">
+    <img src="/read.jpg" class = "pic" alt="">
+</div>
 
-    {{#each names}}
-        <p>💪 {{#if this.url}}
-                <a target = "_blank" href="{{this.url}}">{{this.first}} {{this.last}} </a>
-            {{else}}
-                {{this.first}} {{this.last}}
-            {{/if}}
+<div class="mainSigners">
 
-            {{#if this.age}}({{this.age}}
-                {{#if this.city}} ,<a href="{{this.city}}">{{this.city}}</a>{{/if}})
+    <h2>Here you find a list of people who already support our cause: </h2>
+
+        {{#each names}}
+            <p>💪 {{#if this.url}}
+                    <a target = "_blank" href="{{this.url}}">{{this.first}} {{this.last}} </a>
                 {{else}}
-                {{#if this.city}} (<a href="{{this.city}}">{{this.city}}</a>) {{/if}}
-            {{/if}}
+                    {{this.first}} {{this.last}}
+                {{/if}}
 
-        </p>
-    {{/each}}
+                {{#if this.age}}({{this.age}}
+                    {{#if this.city}} ,<a href="{{this.city}}">{{this.city}}</a>{{/if}})
+                    {{else}}
+                    {{#if this.city}} (<a href="{{this.city}}">{{this.city}}</a>) {{/if}}
+                {{/if}}
+
+            </p>
+        {{/each}}
+
+</div>
