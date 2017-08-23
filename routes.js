@@ -112,14 +112,21 @@ router.route("/profile/edit")
     })
 
     .post((req,res) => {
-        let data = [req.body.firstEdit, req.body.lastEdit, req.body.mailEdit, req.body.pwEdit, req.body.ageEdit, req.body.cityEdit, req.body.urlEdit];
 
-        let id = req.session.id;
+        let pw = req.body.pwEdit;
 
-        updateUser(data, id)
+        hashPassword(pw)
 
-            .then(() => {
-                res.redirect("/petition");
+            .then((hash) => {
+                let data = [req.body.firstEdit, req.body.lastEdit, req.body.mailEdit, hash, req.body.ageEdit, req.body.cityEdit, req.body.urlEdit];
+
+                let id = req.session.id;
+
+                updateUser(data, id)
+
+                    .then(() => {
+                        res.redirect("/petition");
+                    });
             })
             .catch((err) => {
                 console.log(err);
