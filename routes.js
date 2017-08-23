@@ -4,11 +4,20 @@ const {hashPassword, checkPassword} = require("./hashing.js");
 
 var express = require("express");
 var router = express.Router();
+const csurf = require("csurf");
+const csrfProtection = csurf();
+
 
 router.route("/register")
 
+    .all(csrfProtection)
+
     .get((req, res) => {
-        res.render("register", {});
+        console.log(req.csrfToken());
+        res.render("register", {
+            csrfToken: req.csrfToken()
+        });
+
     })
 
     .post((req, res) => {
@@ -29,7 +38,8 @@ router.route("/register")
                     .catch( (err) => {
                         console.log(err);
                         res.render("register", {
-                            error: "Something went wrong, try again"
+                            error: "Something went wrong, try again",
+                            csrfToken: req.csrfToken()
                         });
                     });
             });
@@ -39,8 +49,12 @@ router.route("/register")
 
 router.route("/login")
 
+    .all(csrfProtection)
+
     .get((req, res) => {
-        res.render("login", {});
+        res.render("login", {
+            csrfToken: req.csrfToken()
+        });
     })
 
     .post((req, res) => {
@@ -65,6 +79,7 @@ router.route("/login")
                 console.log(err);
                 res.render("login", {
                     error: "Something went wrong, try again",
+                    csrfToken: req.csrfToken()
                 });
             });
     })
@@ -73,8 +88,12 @@ router.route("/login")
 
 router.route("/profile")
 
+    .all(csrfProtection)
+
     .get((req, res) => {
-        res.render("profile", {});
+        res.render("profile", {
+            csrfToken: req.csrfToken()
+        });
     })
 
     .post((req, res) => {
@@ -101,12 +120,15 @@ router.route("/profile")
 
 router.route("/profile/edit")
 
+    .all(csrfProtection)
+
     .get((req,res) => {
         let id = req.session.id;
         getUserData(id)
             .then((results) => {
                 res.render("edit", {
-                    info: results.rows[0]
+                    info: results.rows[0],
+                    csrfToken: req.csrfToken()
                 });
             });
     })
@@ -138,8 +160,12 @@ router.route("/profile/edit")
 
 router.route("/petition")
 
+    .all(csrfProtection)
+
     .get((req, res) => {
-        res.render("petition", {});
+        res.render("petition", {
+            csrfToken: req.csrfToken()
+        });
     })
 
     .post((req, res) => {

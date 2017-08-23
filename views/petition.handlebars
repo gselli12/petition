@@ -13,6 +13,7 @@
     <form action="/petition" method="POST">
             <div class="names column">
                 <input id = "hidden" type= "hidden" name="signature" value="" >
+                <input type="hidden" name="_csrf" value="{{csrfToken}}">
             </div>
             <div class="canvas-div">
                 <canvas width="400" height ="100"></canvas>

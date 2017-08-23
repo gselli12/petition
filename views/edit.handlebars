@@ -17,6 +17,7 @@
         <h5>City (optional)</h5>
         <input type="input" name="urlEdit" value="{{info.url}}" placeholder ="URL" >
         <h5>URL (optional)</h5>
+        <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
         <button type="submit" formmethod="POST">Update</button>
     </div>
