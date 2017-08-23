@@ -2,11 +2,12 @@
 //var express = require('express');
 var cookieSession = require('cookie-session');
 
-if(process.env.COOKIE_SESSION) {
-    let secrets = process.env.COOKIE_SESSION
+let secret;
+if(process.env.COOKIE_SECRET) {
+    secret = process.env.COOKIE_SECRET;
 } else {
     const secrets = require("./secrets.json");
-    let secrets = secrets.secret
+    secret = secrets.secret;
 }
 
 
@@ -23,7 +24,7 @@ module.exports = (app) => {
     }));
 
     app.use(cookieSession({
-        secret: secrets,
+        secret: secret,
         maxAge: 1000 * 60 * 60 * 24 * 14
     }));
 

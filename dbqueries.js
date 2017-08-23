@@ -1,7 +1,17 @@
 const spicedPG = require("spiced-pg");
-//const login = require("./secrets.json");
 
-const db = spicedPG(process.env.DATABASE_URL || "postgres:" + login.username + ":" + login.password + "@localhost:5432/petition");
+// const login = require("./secrets.json");
+
+//const db = spicedPG(process.env.DATABASE_URL || "postgres:" + login.username + ":" + login.password + "@localhost:5432/petition");
+
+let db;
+if(process.env.DATABASE_URL) {
+    db = spicedPG(process.env.DATABASE_URL);
+} else {
+    const login = require("./secrets.json");
+    db = spicedPG("postgres:" + login.username + ":" + login.password + "@localhost:5432/petition");
+}
+
 
 var addUser = (data) => {
     return new Promise((resolve, reject) => {
