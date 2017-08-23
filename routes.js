@@ -7,6 +7,12 @@ var router = express.Router();
 const csurf = require("csurf");
 const csrfProtection = csurf();
 
+router.route("/")
+
+    .get((req, res) => {
+        res.redirect("/register");
+    });
+
 
 router.route("/register")
 
