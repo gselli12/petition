@@ -13,7 +13,6 @@ router.route("/register")
     .all(csrfProtection)
 
     .get((req, res) => {
-        console.log(req.csrfToken());
         res.render("register", {
             csrfToken: req.csrfToken()
         });

@@ -1,7 +1,7 @@
 const spicedPG = require("spiced-pg");
-const login = require("./secrets.json");
+//const login = require("./secrets.json");
 
-const db = spicedPG("postgres:" + login.username + ":" + login.password + "@localhost:5432/petition");
+const db = spicedPG(process.env.DATABASE_URL || "postgres:" + login.username + ":" + login.password + "@localhost:5432/petition");
 
 var addUser = (data) => {
     return new Promise((resolve, reject) => {
@@ -35,7 +35,7 @@ var updateUser = (data, id) => {
             if (results) {
                 return(data);
             } else {
-                console.log("error at first query");
+                reject("error at first query");
             }
         });
         db.query("UPDATE profile SET age = ($1), city = ($2), url = ($3) WHERE profile.user_id = '" + id + "';", data.slice(4, 8), (err, results) => {

@@ -18,6 +18,6 @@ middleware(app);
 app.use(routes);
 
 const port = 8080;
-app.listen(port, () => {
+app.listen(process.env.PORT || port, () => {
     console.log("listening on port 8080");
 });
