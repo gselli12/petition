@@ -165,6 +165,15 @@ router.route("/profile/edit")
                         res.redirect("/petition");
                     });
             })
+
+            .then(() => {
+                client.set("cache", JSON.stringify(null), (err) => {
+                    if(err) {
+                        return console.log(err);
+                    }
+                    console.log("cache set to null");
+                });
+            })
             .catch((err) => {
                 console.log(err);
             });
@@ -187,9 +196,17 @@ router.route("/petition")
         let data = [req.body.signature, req.session.id];
 
         addSignature(data)
-            .then(function(results) {
+            .then((results) => {
                 req.session.sigId = results.rows[0].id;
                 res.redirect("/petition/signed");
+            })
+            .then(() => {
+                client.set("cache", JSON.stringify(null), (err) => {
+                    if(err) {
+                        return console.log(err);
+                    }
+                    console.log("cache set to null");
+                });
             })
             .catch((err) =>  {
                 console.log(err);
@@ -247,36 +264,66 @@ router.route("/petition/signers")
 
     .get((req, res) => {
 
-
-
-        // let cache = {};
-
-        getNames()
-            .then((results) => {
-                client.set("cache", JSON.stringify(results.rows), (err) => {
-                    if (err) {
-                        return console.log(err);
+        let getCache = () => {
+            return new Promise((resolve, reject) => {
+                client.get("cache", (err, data) => {
+                    if(err) {
+                        reject(err);
+                    } else {
+                        resolve(JSON.parse(data));
                     }
-                    console.log("cache was successfully sent");
-                });
-            })
-            .then(() => {
-                return new Promise((resolve, reject) => {
-                    client.get("cache", (err, data) => {
-                        if(err) {
-                            reject(err);
-                        } else {
-                            // console.log(JSON.parse(data));
-                            resolve(JSON.parse(data));
-                        }
-                    });
-                });
-            })
-            .then((data) => {
-                res.render("signers", {
-                    names: data
                 });
             });
+        };
+
+        getCache()
+            .then((data) => {
+                if (data == null) {
+                    getNames()
+                        .then((results) => {
+                            return new Promise((resolve, reject) => {
+                                client.set("cache", JSON.stringify(results.rows), (err) => {
+                                    if (err) {
+                                        reject(console.log(err));
+                                    } else {
+                                        resolve(console.log("cache was successfully sent"));
+                                    }
+                                });
+                            })
+                                .then(() => {
+                                    getCache()
+                                        .then((data) => {
+                                            res.render("signers", {
+                                                names: data
+                                            });
+                                        });
+                                });
+
+                        });
+
+                } else {
+                    console.log("getting data from cache");
+                    res.render("signers", {
+                        names: data
+                    });
+                }
+            });
+
+
+            // .then(() => {
+            //     return new Promise((resolve, reject) => {
+            //         client.get("cache", (err, data) => {
+            //             if(err) {
+            //                 reject(err);
+            //             } else {
+            //                 // console.log(JSON.parse(data));
+            //                 resolve(JSON.parse(data));
+            //             }
+            //         });
+            //     });
+            // })
+
+
     });
 
 
