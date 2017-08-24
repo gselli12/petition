@@ -2,20 +2,13 @@ const {deleteSignature, updateUser, getUserData, getNamesByCity, addInfo, getSig
 
 const {hashPassword, checkPassword} = require("./hashing.js");
 
+const {clearCache ,getCache, setCache} = require("./redis.js");
+
 var express = require("express");
 var router = express.Router();
 const csurf = require("csurf");
 const csrfProtection = csurf();
 
-var redis = require('redis');
-var client = redis.createClient({
-    host: 'localhost',
-    port: 6379
-});
-
-client.on('error', function(err) {
-    console.log(err);
-});
 
 router.route("/")
 
@@ -167,12 +160,7 @@ router.route("/profile/edit")
             })
 
             .then(() => {
-                client.set("cache", JSON.stringify(null), (err) => {
-                    if(err) {
-                        return console.log(err);
-                    }
-                    console.log("cache set to null");
-                });
+                clearCache();
             })
             .catch((err) => {
                 console.log(err);
@@ -201,12 +189,7 @@ router.route("/petition")
                 res.redirect("/petition/signed");
             })
             .then(() => {
-                client.set("cache", JSON.stringify(null), (err) => {
-                    if(err) {
-                        return console.log(err);
-                    }
-                    console.log("cache set to null");
-                });
+                clearCache();
             })
             .catch((err) =>  {
                 console.log(err);
@@ -264,32 +247,12 @@ router.route("/petition/signers")
 
     .get((req, res) => {
 
-        let getCache = () => {
-            return new Promise((resolve, reject) => {
-                client.get("cache", (err, data) => {
-                    if(err) {
-                        reject(err);
-                    } else {
-                        resolve(JSON.parse(data));
-                    }
-                });
-            });
-        };
-
         getCache()
             .then((data) => {
                 if (data == null) {
                     getNames()
                         .then((results) => {
-                            return new Promise((resolve, reject) => {
-                                client.set("cache", JSON.stringify(results.rows), (err) => {
-                                    if (err) {
-                                        reject(console.log(err));
-                                    } else {
-                                        resolve(console.log("cache was successfully sent"));
-                                    }
-                                });
-                            })
+                            setCache(results)
                                 .then(() => {
                                     getCache()
                                         .then((data) => {
@@ -298,7 +261,6 @@ router.route("/petition/signers")
                                             });
                                         });
                                 });
-
                         });
 
                 } else {
@@ -308,25 +270,7 @@ router.route("/petition/signers")
                     });
                 }
             });
-
-
-            // .then(() => {
-            //     return new Promise((resolve, reject) => {
-            //         client.get("cache", (err, data) => {
-            //             if(err) {
-            //                 reject(err);
-            //             } else {
-            //                 // console.log(JSON.parse(data));
-            //                 resolve(JSON.parse(data));
-            //             }
-            //         });
-            //     });
-            // })
-
-
     });
-
-
 
 
 router.route("/petition/:city")
