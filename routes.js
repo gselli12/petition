@@ -7,6 +7,16 @@ var router = express.Router();
 const csurf = require("csurf");
 const csrfProtection = csurf();
 
+var redis = require('redis');
+var client = redis.createClient({
+    host: 'localhost',
+    port: 6379
+});
+
+client.on('error', function(err) {
+    console.log(err);
+});
+
 router.route("/")
 
     .get((req, res) => {
@@ -236,15 +246,40 @@ router.route("/petition/signed")
 router.route("/petition/signers")
 
     .get((req, res) => {
-        let obj = [];
+
+
+
+        // let cache = {};
+
         getNames()
             .then((results) => {
-                obj = results.rows;
+                client.set("cache", JSON.stringify(results.rows), (err) => {
+                    if (err) {
+                        return console.log(err);
+                    }
+                    console.log("cache was successfully sent");
+                });
+            })
+            .then(() => {
+                return new Promise((resolve, reject) => {
+                    client.get("cache", (err, data) => {
+                        if(err) {
+                            reject(err);
+                        } else {
+                            // console.log(JSON.parse(data));
+                            resolve(JSON.parse(data));
+                        }
+                    });
+                });
+            })
+            .then((data) => {
                 res.render("signers", {
-                    names: obj,
+                    names: data
                 });
             });
     });
+
+
 
 
 router.route("/petition/:city")
