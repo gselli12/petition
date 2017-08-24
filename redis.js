@@ -21,7 +21,6 @@ let getCache = () => {
     });
 };
 
-
 let setCache = (results) => {
     return new Promise((resolve, reject) => {
         client.set("cache", JSON.stringify(results.rows), (err) => {
@@ -47,7 +46,44 @@ let clearCache = () => {
     });
 };
 
+let getLoginCheck = () => {
+    return new Promise((resolve, reject) => {
+        client.get("loginCheck", (err, data) => {
+            if (err) {
+                reject(console.log(err));
+            } else {
+                if (JSON.parse(data) == null) {
+                    client.setex("loginCheck", 60,JSON.stringify(0), (err) => {
+                        if (err) {
+                            reject((console.log(err)));
+                        } else {
+                            console.log("loginCheck set to 0");
+                            resolve(0);
+                        }
+                    });
+                } else {
+                    resolve(JSON.parse(data));
+                }
+            }
+        });
+    });
+};
 
+let incrementLoginCheck = (data) => {
+    return new Promise((resolve, reject) => {
+        client.setex("loginCheck", 60 ,JSON.stringify(data + 1), (err) => {
+            if (err) {
+                reject(console.log(err));
+            } else {
+                resolve(console.log("loginCheck incremented by 1"));
+            }
+        });
+    });
+};
+
+
+module.exports.incrementLoginCheck = incrementLoginCheck;
+module.exports.getLoginCheck = getLoginCheck;
 module.exports.clearCache = clearCache;
 module.exports.getCache = getCache;
 module.exports.setCache = setCache;

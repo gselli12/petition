@@ -2,7 +2,7 @@ const {deleteSignature, updateUser, getUserData, getNamesByCity, addInfo, getSig
 
 const {hashPassword, checkPassword} = require("./hashing.js");
 
-const {clearCache ,getCache, setCache} = require("./redis.js");
+const {incrementLoginCheck, getLoginCheck, clearCache ,getCache, setCache} = require("./redis.js");
 
 var express = require("express");
 var router = express.Router();
@@ -60,9 +60,21 @@ router.route("/login")
     .all(csrfProtection)
 
     .get((req, res) => {
-        res.render("login", {
-            csrfToken: req.csrfToken()
-        });
+        getLoginCheck()
+            .then((data) => {
+                if (data < 3 || data == 0) {
+                    res.render("login", {
+                        csrfToken: req.csrfToken()
+                    });
+                } else {
+                    res.render("login", {
+                        csrfToken: req.csrfToken(),
+                        block: true,
+                        error: "That was one too many - try again in 60 seconds"
+                    });
+                }
+            });
+
     })
 
     .post((req, res) => {
@@ -77,7 +89,26 @@ router.route("/login")
                             res.redirect("/petition");
                         } else {
                             console.log("wrong password");
-                            res.redirect("/login");
+
+                            getLoginCheck()
+                                .then((data) => {
+                                    console.log(data);
+                                    if(data < 3 || data == null) {
+                                        incrementLoginCheck(data);
+                                        res.render("login", {
+                                            csrfToken: req.csrfToken(),
+                                            error: "Wrong password, try again"
+                                        });
+                                    } else {
+                                        console.log("that was one too many");
+                                        res.render("login", {
+                                            csrfToken: req.csrfToken(),
+                                            block: true,
+                                            error: "That was one too many - try again in 60 seconds"
+                                        });
+                                    }
+
+                                });
                         }
                     });
                 //having a bug here -> need to somehow put the below line at the end of the above promise chain
