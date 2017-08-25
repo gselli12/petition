@@ -117,7 +117,7 @@ var countRows = () => {
             if (results) {
                 resolve(results);
             } else {
-                reject("error");
+                reject("error counting rows");
             }
         });
     });
@@ -130,7 +130,7 @@ var getSignature = (id) => {
             if (results) {
                 resolve(results);
             } else {
-                reject("error");
+                reject("error getting signature");
             }
         });
     });

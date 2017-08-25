@@ -39,8 +39,12 @@ router.route("/register")
                 let data = [first, last, email, hash];
                 addUser(data)
                     .then((results) => {
-                        req.session.id = results.rows[0].id;
-                        req.session.email = results.rows[0].emailReg;
+                        req.session.user = {
+                            id: results.rows[0].id,
+                            email: results.rows[0].id
+                        };
+                        req.session.user.id = results.rows[0].id;
+                        req.session.email = results.rows[0].email;
                         res.redirect("/profile");
                     })
                     .catch( (err) => {
@@ -74,7 +78,6 @@ router.route("/login")
                     });
                 }
             });
-
     })
 
     .post((req, res) => {
@@ -112,7 +115,7 @@ router.route("/login")
                         }
                     });
                 //having a bug here -> need to somehow put the below line at the end of the above promise chain
-                req.session.id = hash.id;
+                req.session.user.id = hash.id;
             })
             .catch((err) => {
                 console.log(err);
@@ -139,7 +142,7 @@ router.route("/profile")
         let age = req.body.ageProfile;
         let city = req.body.cityProfile;
         let url = req.body.urlProfile;
-        let id = req.session.id;
+        let id = req.session.user.id;
 
         let data = [age, city, url, id];
         if (data[0] == "") {
@@ -162,7 +165,7 @@ router.route("/profile/edit")
     .all(csrfProtection)
 
     .get((req,res) => {
-        let id = req.session.id;
+        let id = req.session.user.id;
         getUserData(id)
             .then((results) => {
                 res.render("edit", {
@@ -181,7 +184,7 @@ router.route("/profile/edit")
             .then((hash) => {
                 let data = [req.body.firstEdit, req.body.lastEdit, req.body.mailEdit, hash, req.body.ageEdit, req.body.cityEdit, req.body.urlEdit];
 
-                let id = req.session.id;
+                let id = req.session.user.id;
 
                 updateUser(data, id)
 
@@ -212,7 +215,7 @@ router.route("/petition")
     })
 
     .post((req, res) => {
-        let data = [req.body.signature, req.session.id];
+        let data = [req.body.signature, req.session.user.id];
 
         addSignature(data)
             .then((results) => {
@@ -232,7 +235,7 @@ router.route("/petition")
 router.route("/delete")
 
     .get((req, res) => {
-        let id = req.session.id;
+        let id = req.session.user.id;
 
         deleteSignature(id)
             .then(() => {
@@ -255,7 +258,8 @@ router.route("/petition/signed")
                 num.count = results.rows[0].count;
             })
             .then (() => {
-                getSignature(req.session.id)
+                console.log(req.session.user.id);
+                getSignature(req.session.user.id)
 
                     .then((results) => {
                         img = results.rows[0];

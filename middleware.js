@@ -1,6 +1,7 @@
 //REQUIRING
-//var express = require('express');
-var cookieSession = require('cookie-session');
+
+var session = require('express-session'),
+    Store = require('connect-redis')(session);
 
 let secret;
 if(process.env.COOKIE_SECRET) {
@@ -17,15 +18,23 @@ if(process.env.COOKIE_SECRET) {
 module.exports = (app) => {
 
 
+
+
     app.use(require("cookie-parser")());
 
     app.use(require("body-parser").urlencoded({
         extended: false
     }));
 
-    app.use(cookieSession({
-        secret: secret,
-        maxAge: 1000 * 60 * 60 * 24 * 14
+    app.use(session({
+        store: new Store({
+            ttl: 3600,
+            host: 'localhost',
+            port: 6379
+        }),
+        resave: false,
+        saveUninitialized: true,
+        secret: 'my super fun secret'
     }));
 
     // app.use((req, res, next) => {
