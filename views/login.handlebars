@@ -1,39 +1,47 @@
-<div id="black">
-    <div class="imgLogin">
-        <img src="arnold-login2.jpg" class = "pic" alt="">
-    </div>
+
+<div class="page">
+
+
+
+
+        <div class="element login">
+            <h1>Please login</h1>
+
+
+            <form class="inputDiv" action="/login" method="post">
+                <div class="">
+                    <div class="input">
+                        <input type="input" name="emailLog" value="" placeholder ="">
+                        <h5 class = "inputDescr">E-Mail</h5>
+                    </div>
+                        <input type="password" name="pwLog" value="" placeholder ="">
+                        <h5 class = "inputDescr">Password</h5>
+                    <div class="input">
+
+                    </div>
+
+                    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                    <button type="submit" formmethod="POST" class ="button" id="">Log in</button>
+                </div>
+            </form>
+
+            {{error}}
+
+    {{#if block}}
+        <script type="text/javascript">
+
+            let button = document.getElementById("loginbutton");
+
+            button.setAttribute("disabled", true)
+
+            setTimeout(() => {
+                button.removeAttribute("disabled");
+            }, 60*1000)
+
+            </script>
+    {{/if}}
+        </div>
+
+    <img src="arnold-login2.jpg" class = "imgLogin" alt="">
+
 </div>
-
-
-
-    <div class="textLogin">
-        <h1>Please login</h1>
-
-
-        <form class="login" action="/login" method="post">
-            <div class="column">
-                <input type="input" name="emailLog" value="" placeholder ="">
-                <h5>E-Mail</h5>
-                <input type="password" name="pwLog" value="" placeholder ="">
-                <h5>Password</h5>
-                <input type="hidden" name="_csrf" value="{{csrfToken}}">
-                <button type="submit" formmethod="POST" class ="button" id="loginbutton">Log in</button>
-            </div>
-        </form>
-
-        {{error}}
-
-{{#if block}}
-    <script type="text/javascript">
-
-        let button = document.getElementById("loginbutton");
-
-        button.setAttribute("disabled", true)
-
-        setTimeout(() => {
-            button.removeAttribute("disabled");
-        }, 60*1000)
-
-        </script>
-{{/if}}
-    </div>

@@ -1,37 +1,64 @@
-<div id="register">
+<h1 class = "headline">Todays problems require strong leadership</h1>
+
+<div class="page">
 
 
-<div class="textReg">
 
-        <h1>TODAYS PROBLEMS REQUIRE STRONG LEADERSHIP</h1>
+    <div class="element">
+            <h2>Who would be a stronger leader of the free world than the strongest man in history:<br> Arnold Schwarzenegger</h2>
 
-        <h2>WHO WOULD BE A BETTER STRONG LEADER OF THE FREE WORLD THAN THE STRONGEST MAN IN HISTROY: <div class="highlight">
-            ARNOLD SCHWARZENEGGER
-        </div></h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
-        <form class="register" action="/register" method="post">
-            <h3>Sign up and help us make sure it will happen</h3>
-            <div class="column">
-                <input type="input" name="firstReg" value="" placeholder ="">
-                <h5>First Name</h5>
-                <input type="input" name="lastReg" value="" placeholder ="">
-                    <h5>Last Name</h5>
-                <input type="input" name="emailReg" value="" placeholder ="">
-                    <h5>E-Mail</h5>
-                <input type="password" name="pwReg" value="" placeholder ="">
-                    <h5>Password</h5>
-                <input type="hidden" name="_csrf" value="{{csrfToken}}">
-                <button type="submit" formmethod="POST" class = "button">Sign up</button>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+    </div>
+
+<img src="arnoldForPresident.jpg" alt="" class="imgRight">
+
+</div>
+
+<div class="element">
+
+    <h3>Sign up and help us make sure it will happen</h3>
+
+    <form class="" action="/register" method="post">
+
+        <div class="inputDiv">
+            <div class="input">
+                <input  type="input" name="firstReg" value="" placeholder ="">
+                <h5 class = "inputDescr">First Name</h5>
             </div>
-        </form>
+
+            <div class="input">
+                <input type="input" name="lastReg" value="" placeholder ="">
+                    <h5 class = "inputDescr">Last Name</h5>
+            </div>
+
+            <div class="input">
+                <input type="input" name="emailReg" value="" placeholder ="">
+                    <h5 class = "inputDescr">E-Mail</h5>
+            </div>
+
+            <div class="input">
+                <input type="password" name="pwReg" value="" placeholder ="">
+                    <h5 class = "inputDescr">Password</h5>
+            </div>
+
+
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">
+            <button type="submit" formmethod="POST" class = "button">REGISTER</button>
+        </div>
 
         {{error}}
 
+        <div class="line">
 
-    <h4>If you already are a member, <a href="/login" class="highlight" id = "login">Login</a></h4>
-</div>
+        </div>
+    </form>
 
-<img src="arnoldForPresident.jpg" alt="" id = "imgReg">
 
+
+
+    <a href="/login" class="" id = "login"><button type="button" name="button">Login</button></a>
 
 </div>

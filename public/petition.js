@@ -5,7 +5,6 @@ let context = canvas.getContext('2d');
 let x = 0;
 let y = 0;
 
-
 button.addEventListener("click", () => {
     $("#hidden").val(canvas.toDataURL());
     // console.log($("#first-name").val());

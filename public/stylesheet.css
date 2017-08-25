@@ -1,4 +1,134 @@
 @font-face {
+    font-family: 'NYT';
+    src: url('englisht.ttf') format('ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    margin-left: 10%;
+    margin-right: 10%;
+    font-family: 'Lora', serif;
+    height: 100%;
+}
+
+button {
+    background-color: #326891;
+    font-family: 'Patua One', cursive;
+    color: white;
+    width: 120px;
+    height: 40px;
+    border-radius: 5px;
+    margin-left: 20px;
+}
+
+.element {
+    margin-right: 10px;
+    margin-top: 10px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    border: 1px solid rgb(225, 237, 240);
+}
+
+.page {
+    display: flex;
+    flex-direction: row;
+    margin-top: 40px;
+}
+
+/*HEADER */
+
+.header {
+    text-align: center;
+    margin: 5px;
+    border-top: 2px solid rgb(225, 237, 240);
+    border-bottom: 4px solid black;
+}
+
+.headline {
+    margin: 10px;
+    text-align: center;
+}
+
+.subHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.headerLine {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.inputDiv {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.input {
+    margin: 10px;
+}
+
+.inputDescr {
+    margin-top: 3px;
+}
+
+a {
+    /*text-decoration: none;*/
+    color: black;
+}
+
+a:hover {
+    color: blue;
+}
+
+/*Register*/
+
+.imgRight {
+    width: 40%;
+    height: 60%;
+}
+
+#login {
+    position: relative;
+    left: 83%;
+}
+
+.line {
+    width: 90%;
+    height: 2px;
+    margin: auto;
+    border-bottom: 1px solid grey;
+}
+
+#login button {
+    margin-top: 5px;
+    background-color: red;
+}
+
+/*LOGIN*/
+
+.imgLogin {
+    width: 50%;
+    height: 30%;
+    right: 0;
+}
+
+.element.login {
+    width: 50%;
+    text-align: center;
+}
+
+
+/*OLD STYLING
+
+@font-face {
     font-family: 'terminator_real_nfiregular';
     src: url('terminator-webfont.woff2') format('woff2'),
          url('terminator-webfont.woff') format('woff');
@@ -13,7 +143,6 @@
 }
 
 body {
-    /*background-image: url(arnoldForPresident.jpg);*/
     background-size: cover;
     background-color: black;
     display: flex;
@@ -217,8 +346,6 @@ canvas {
 }
 
 .imgLogin {
-    /*background-image: url(arnold-login2.jpg);*/
-    /*background-size: contain;*/
     position: absolute;
     top: 0;
     left: 15%;
@@ -257,4 +384,4 @@ canvas {
     margin-top: 10px;
     width: 300px;
     height: 350px;
-}
+}*/
