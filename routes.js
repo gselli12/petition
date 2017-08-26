@@ -39,12 +39,13 @@ router.route("/register")
                 let data = [first, last, email, hash];
                 addUser(data)
                     .then((results) => {
+                        console.log(req.session);
                         req.session.user = {
                             id: results.rows[0].id,
                             email: results.rows[0].id
                         };
-                        req.session.user.id = results.rows[0].id;
-                        req.session.email = results.rows[0].email;
+                        // req.session.user.id = results.rows[0].id;
+                        // req.session.email = results.rows[0].email;
                         res.redirect("/profile");
                     })
                     .catch( (err) => {
@@ -216,9 +217,9 @@ router.route("/petition")
 
     .post((req, res) => {
         let data = [req.body.signature, req.session.user.id];
-
         addSignature(data)
             .then((results) => {
+                console.log("this is results", results);
                 req.session.sigId = results.rows[0].id;
                 res.redirect("/petition/signed");
             })
@@ -239,6 +240,7 @@ router.route("/delete")
 
         deleteSignature(id)
             .then(() => {
+                req.session.sigId = null;
                 res.redirect("/petition");
             })
             .catch((err) => {
@@ -258,7 +260,7 @@ router.route("/petition/signed")
                 num.count = results.rows[0].count;
             })
             .then (() => {
-                console.log(req.session.user.id);
+                console.log("get request signed",req.session);
                 getSignature(req.session.user.id)
 
                     .then((results) => {

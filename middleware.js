@@ -1,10 +1,4 @@
 
-
-
-
-
-
-
 //MIDDLEWARE
 
 module.exports = (app) => {
@@ -60,9 +54,10 @@ module.exports = (app) => {
     });
 
     app.use((req, res, next) => {
-        if( !req.session.id && req.url !== "/register" && req.url !== "/login") {
+        console.log(req.session);
+        if( !req.session.user && req.url !== "/register" && req.url !== "/login") {
             res.redirect("/register");
-        } else if (req.session.id && (req.url == "/register" || req.url == "/login")) {
+        } else if (req.session.user && (req.url == "/register" || req.url == "/login")) {
             res.redirect("/petition");
         } else {
             next();
