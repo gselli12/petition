@@ -260,7 +260,6 @@ router.route("/petition/signed")
                 num.count = results.rows[0].count;
             })
             .then (() => {
-                console.log("get request signed",req.session);
                 getSignature(req.session.user.id)
 
                     .then((results) => {
@@ -286,6 +285,7 @@ router.route("/petition/signers")
 
         getCache()
             .then((data) => {
+                console.log(data);
                 if (data == null) {
                     getNames()
                         .then((results) => {

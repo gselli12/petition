@@ -23,7 +23,6 @@ module.exports = (app) => {
     var session = require('express-session'),
         Store = require('connect-redis')(session);
 
-
     var store = {};
     if(process.env.REDIS_URL) {
         store = {
@@ -37,13 +36,16 @@ module.exports = (app) => {
         };
     }
 
-
     app.use(session({
         store: new Store(store),
         resave: true,
         saveUninitialized: true,
         secret: secret
     }));
+
+
+
+
 
     app.use((req, res, next) => {
         if (req.session.sigId && req.url == "/petition") {

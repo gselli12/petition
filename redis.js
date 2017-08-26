@@ -1,8 +1,29 @@
 var redis = require('redis');
-var client = redis.createClient({
-    host: 'localhost',
-    port: 6379
-});
+const client = redis.createClient(process.env.REDIS_URL || {host:'localhost', port: 6379});
+
+// var session = require('express-session'),
+//     Store = require('connect-redis')(session);
+//
+// var store = {};
+// if(process.env.REDIS_URL) {
+//     store = {
+//         url: process.env.REDIS_URL
+//     };
+// } else {
+//     store = {
+//         ttl: 3600,
+//         host: 'localhost',
+//         port: 6379,
+//     };
+// }
+
+// app.use(session({
+//     store: new Store(store),
+//     resave: true,
+//     saveUninitialized: true,
+//     secret: secret
+// }));
+
 
 client.on('error', function(err) {
     console.log(err);
@@ -80,6 +101,7 @@ let incrementLoginCheck = (data) => {
         });
     });
 };
+
 
 
 module.exports.incrementLoginCheck = incrementLoginCheck;
