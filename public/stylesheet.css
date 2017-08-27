@@ -145,12 +145,13 @@ canvas {
 }*/
 
 
-OLD STYLING
+/*OLD STYLING*/
 
 @font-face {
     font-family: 'terminator_real_nfiregular';
-    src: url('terminator-webfont.woff2') format('woff2'),
-         url('terminator-webfont.woff') format('woff');
+    src: url('./terminato.ttf') format('ttf'),
+         url('./terminator-webfont.woff') format('woff'),
+         url('./terminator-webfont.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
 }
@@ -374,7 +375,7 @@ canvas {
 
 .button {
     background-color: white;
-    font-family: 'terminator_real_nfiregular';
+    font-family: 'terminator_real_nfiregular', Lato;
     color: rgb(224, 70, 70);
     font-weight: normal;
     border-radius: 30px;
